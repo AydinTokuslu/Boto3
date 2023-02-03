@@ -1,6 +1,6 @@
 import boto3
 
-# bucketların içindeki tüm objeleri listeleme
+# bucketları ve içindeki tüm objeleri listeleme
 
 s3 = boto3.resource("s3")
 
