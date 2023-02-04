@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  This CloudFormation Template was written for running Roman Numerals Converter
+  Website on EC2. 
+
+  Roman Numerals Converter Website will be deployed on Amazon Linux 2
+  (ami-0fe472d8a85bc7b0e) EC2 Instance 
+
+  with custom security group which allows http connections on port 80 and ssh
+  port 22 from anywhere. 
+
+  Roman Numerals Converter Website is downloaded from my Public Github
+  repository, then deployed on python flask. 
+
+  Rihanna says Work! Work! Work!
+Parameters: {}
+Resources:
+  WebServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTP for Python Flask and SSH for secure connection
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 849d6509-1a7f-414f-a50b-cf1dfb94090a
+  WebServerHost:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-0fe472d8a85bc7b0e
+      InstanceType: t2.micro
+      KeyName: second-key
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub 'Web Server of ${AWS::StackName} Stack'
+      UserData:
+        'Fn::Base64': >
+          #! /bin/bash
+
+          yum update -y
+
+          yum install python3 -y
+
+          pip3 install flask
+
+          yum install git -y
+
+          cd /home/ec2-user
+
+          wget -P templates
+          https://raw.githubusercontent.com/AydinTokuslu/my-projects/main/aws/Project-001-Roman-Numerals-Converter/templates/index.html
+
+          wget -P templates
+          https://raw.githubusercontent.com/AydinTokuslu/my-projects/main/aws/Project-001-Roman-Numerals-Converter/templates/result.html
+
+          wget
+          https://raw.githubusercontent.com/AydinTokuslu/my-projects/main/aws/Project-001-Roman-Numerals-Converter/flask-2.py
+
+          python3 app.py
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: aaf15d05-c11e-4995-9914-40bcb08d9653
+Outputs:
+  WebsiteURL:
+    Value: !Sub 
+      - 'http://${PublicAddress}'
+      - PublicAddress: !GetAtt WebServerHost.PublicDnsName
+    Description: Roman Numerals Converter URL
+Metadata:
+  'AWS::CloudFormation::Designer':
+    849d6509-1a7f-414f-a50b-cf1dfb94090a:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 60
+        'y': 90
+      z: 1
+      embeds: []
+    aaf15d05-c11e-4995-9914-40bcb08d9653:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 180
+        'y': 90
+      z: 1
+      embeds: []
+      isassociatedwith:
+        - 849d6509-1a7f-414f-a50b-cf1dfb94090a
