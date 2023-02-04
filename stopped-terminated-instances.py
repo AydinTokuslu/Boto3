@@ -5,8 +5,9 @@ ec2 = boto3.resource('ec2')
 
 #stop edilmiş veya terminate edilmiş instance'ların listesini gösterir.
 
-instances=ec2.instances.filter(Filters= [{"Name":"instance-state-name", "Values":["stopped","terminated"]}])
-
+#instances=ec2.instances.filter(Filters= [{"Name":"instance-state-name", "Values":["stopped","terminated"]}])
+instances=ec2.instances.all()
+#ikisi de aynı sonucu verir.
 for instance in instances:
     print(instance.id, instance.instance_type)
 
