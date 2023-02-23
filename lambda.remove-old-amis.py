@@ -7,7 +7,7 @@ used_amis = []
 for reservation in instances["Reservations"]:
     for instance in reservation["Instances"]:
         used_amis.append(instance["ImageId"])
-print(used_amis)
+print("used_amis : {}".format(used_amis))
 
 # remove duplicate amis
 def remove_duplicates(amis):
@@ -18,7 +18,7 @@ def remove_duplicates(amis):
     return unique_amis
 
 unique_amis =remove_duplicates(used_amis)
-print(unique_amis)
+print("unique_amis : {}".format(unique_amis))
 
 # get custom amis from the account
 
@@ -40,4 +40,4 @@ for image in custom_images["Images"]:
 for custom_ami in custom_amis_list:
     if custom_ami not in used_amis:
         print("deregistering ami {}".format(custom_ami))
-        client.deregister_image(ImageId=image)
+        client.deregister_image(ImageId=image["ImageId"])
