@@ -19,3 +19,22 @@ def remove_duplicates(amis):
 
 unique_amis =remove_duplicates(used_amis)
 print(unique_amis)
+
+# get custom amis from the account
+
+custom_images = client.describe_images(
+    Filters=[
+        {
+            "Name":"state",
+            "Values":["available"]
+        },
+    ],
+    Owners=["self"]
+)
+
+custom_amis_list = []
+for image in custom_images["Images"]:
+    custom_amis_list.append(image["ImageId"])
+
+# Delete unused AMIs
+
