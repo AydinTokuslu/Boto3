@@ -6,5 +6,5 @@ response = client.put_object(
     ACL='private',
     Body=file_reader,
     Bucket='javahomecloud123',
-    Key='create_bucket.py'
+    Key='s3-create_bucket.py'
 )
