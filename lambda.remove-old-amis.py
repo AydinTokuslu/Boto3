@@ -36,5 +36,8 @@ custom_amis_list = []
 for image in custom_images["Images"]:
     custom_amis_list.append(image["ImageId"])
 
-# Delete unused AMIs
 
+for custom_ami in custom_amis_list:
+    if custom_ami not in used_amis:
+        print("deregistering ami {}".format(custom_ami))
+        client.deregister_image(ImageId=image)
