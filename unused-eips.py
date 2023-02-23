@@ -2,7 +2,7 @@ import boto3
 import os
 
 ec2_client = boto3.client('ec2')
-ses_lient = boto3.client('ses')
+ses_client = boto3.client('ses')
 
 SOURCE_EMAIL = os.environ['SOURCE_EMAIL']
 DEST_EMAIL = os.environ['DEST_EMAIL']
